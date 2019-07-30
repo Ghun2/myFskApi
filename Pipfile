@@ -4,10 +4,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+flask-testing = "*"
 
 [packages]
 flask = "*"
 flask-restful = "*"
+flask-bcrypt = "*"
+flask-restplus = "*"
+flask-migrate = "*"
+pyjwt = "*"
+flask-script = "*"
 
 [requires]
 python_version = "3.7"
