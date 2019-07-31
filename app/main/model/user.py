@@ -1,5 +1,6 @@
 import datetime
 import jwt
+from sqlalchemy.sql import func
 from app.main import db, flask_bcrypt
 from app.main.model.blacklist import BlacklistToken
 from app.main.config import key
@@ -7,15 +8,18 @@ from app.main.config import key
 
 class User(db.Model):
     """ User Model for storing user related details """
-    __tablename__ = "user"
+    __tablename__ = "User"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(255), unique=True, nullable=False)
-    registered_on = db.Column(db.DateTime, nullable=False)
-    admin = db.Column(db.Boolean, nullable=False, default=False)
-    public_id = db.Column(db.String(100), unique=True)
-    username = db.Column(db.String(50), unique=True)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_name = db.Column(db.String(16))
+    email = db.Column(db.String(255))
+    birth = db.Column(db.Integer)
+    sex = db.Column(db.Integer)
     password_hash = db.Column(db.String(100))
+    user_status = db.Column(db.Integer, nullable=False, server_default='1')
+    admin = db.Column(db.Boolean, nullable=False, default=False)
+    created_time = db.Column(db.DateTime, server_default=func.now())
+    updated_time = db.Column(db.DateTime)
 
     @property
     def password(self):
@@ -67,4 +71,4 @@ class User(db.Model):
             return 'Invalid token. Please log in again.'
 
     def __repr__(self):
-        return "<user '{}'>".format(self.username)
+        return "<user '{}'>".format(self.user_name)
