@@ -28,7 +28,7 @@ class DevelopmentConfig(Config):
     # uncomment the line below to use postgres
     # SQLALCHEMY_DATABASE_URI = postgres_local_base
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = TB_DB_URL
+    SQLALCHEMY_DATABASE_URI = PRD_DB_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

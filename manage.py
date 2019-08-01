@@ -10,7 +10,7 @@ from app import blueprint
 from app.main import create_app, db
 from app.main.model.user import User
 from app.main.model import b_logic
-from constants.local_run import RUN_SETTING
+from constants.local_run import RUN_SETTING, TB_RUN_SETTING
 
 
 # app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
@@ -50,7 +50,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def run():
-    app.run(**RUN_SETTING)
+    app.run(**TB_RUN_SETTING)
 
 
 @manager.command
