@@ -6,7 +6,7 @@ from sqlalchemy.sql import func
 class CategoryLaw(db.Model):
     __tablename__ = 'CategoryLaw'
 
-    law_id = db.Column(db.Integer, primary_key=True)
+    law_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     applied_date = db.Column(db.DateTime)
     minimum_wage = db.Column(db.Integer)
     law_02 = db.Column(db.Integer)
@@ -18,8 +18,8 @@ class CategoryLaw(db.Model):
 class Daily(db.Model):
     __tablename__ = 'Daily'
 
-    daliy_id = db.Column(db.String(50), primary_key=True, nullable=False)
-    wcond_id = db.Column(db.ForeignKey('WorkCondition.wcond_id'), nullable=False, index=True)
+    daily_id = db.Column(db.String(50), primary_key=True, nullable=False)
+    wcond_id = db.Column(db.Integer, nullable=False)
     cont_id = db.Column(db.String(45), nullable=False)
     target_ym = db.Column(db.String(6), primary_key=True, nullable=False)
     target_date = db.Column(db.String(2), primary_key=True, nullable=False)
@@ -27,29 +27,29 @@ class Daily(db.Model):
     day_num = db.Column(db.Integer)
     work_start = db.Column(db.DateTime)
     work_end = db.Column(db.DateTime)
-    actual_work_time = db.Column(db.Time)
-    contract_work_time = db.Column(db.Time)
-    actual_rest_time = db.Column(db.Time)
-    contract_rest_time = db.Column(db.Time)
-    over_work_time = db.Column(db.Time)
-    night_work_time = db.Column(db.Time)
-    holiday_work_time = db.Column(db.Time)
-    actual_work_pay = db.Column(db.Numeric(12, 2))
-    contract_work_pay = db.Column(db.Numeric(12, 2))
-    over_work_pay = db.Column(db.Numeric(12, 2))
-    night_work_pay = db.Column(db.Numeric(12, 2))
-    holiday_work_pay = db.Column(db.Numeric(12, 2))
-    total_work_pay = db.Column(db.Numeric(12, 2))
+    act_work_time = db.Column(db.Time)
+    cont_work_time = db.Column(db.Time)
+    act_rest_time = db.Column(db.Time)
+    cont_rest_time = db.Column(db.Time)
+    over_time = db.Column(db.Time)
+    night_time = db.Column(db.Time)
+    holy_time = db.Column(db.Time)
+    tardy_time = db.Column(db.Time)
+    act_work_pay = db.Column(db.Integer)
+    cont_work_pay = db.Column(db.Integer)
+    over_pay = db.Column(db.Integer)
+    night_pay = db.Column(db.Integer)
+    holy_pay = db.Column(db.Integer)
+    tardy_pay = db.Column(db.Integer)
+    total_pay = db.Column(db.Integer)
     created_time = db.Column(db.DateTime, server_default=func.now())
     updated_time = db.Column(db.DateTime)
-
-    wcond = db.relationship('WorkCondition', primaryjoin='Daily.wcond_id == WorkCondition.wcond_id', backref='dailies')
 
 
 class FAQ(db.Model):
     __tablename__ = 'FAQ'
 
-    id = db.Column(db.Integer, primary_key=True)
+    faq_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     group = db.Column(db.Integer)
     sequence = db.Column(db.Integer)
     level = db.Column(db.Integer)
@@ -82,31 +82,34 @@ class IncomeTax(db.Model):
 class Monthly(db.Model):
     __tablename__ = 'Monthly'
 
-    monthly_id = db.Column(db.String(50, 'utf8mb4_general_ci'), primary_key=True)
+    monthly_id = db.Column(db.String(50), primary_key=True)
     cont_id = db.Column(db.ForeignKey('WorkContract.cont_id'), nullable=False, index=True)
-    target_ym = db.Column(db.String(6, 'utf8mb4_0900_ai_ci'))
-    start_mdate = db.Column(db.String(8, 'utf8mb4_0900_ai_ci'))
-    end_mdate = db.Column(db.String(8, 'utf8mb4_0900_ai_ci'))
-    actual_work_mtime = db.Column(db.Time)
-    contract_work_mtime = db.Column(db.Time)
-    actual_rest_time = db.Column(db.Time)
-    contract_rest_mtime = db.Column(db.Time)
-    over_work_mtime = db.Column(db.Time)
-    night_work_mtime = db.Column(db.Time)
-    holiday_work_mtime = db.Column(db.Time)
-    actual_work_mpay = db.Column(db.Numeric(12, 2))
-    contract_work_mpay = db.Column(db.Numeric(12, 2))
-    over_work_mpay = db.Column(db.Numeric(12, 2))
-    night_work_mpay = db.Column(db.Numeric(12, 2))
-    holiday_work_mpay = db.Column(db.Numeric(12, 2))
-    total_work_mpay = db.Column(db.Numeric(12, 2))
+    target_ym = db.Column(db.String(6))
+    start_mdate = db.Column(db.String(8))
+    end_mdate = db.Column(db.String(8))
+    act_work_mtime = db.Column(db.Time)
+    cont_work_mtime = db.Column(db.Time)
+    act_rest_mtime = db.Column(db.Time)
+    cont_rest_mtime = db.Column(db.Time)
+    over_mtime = db.Column(db.Time)
+    night_mtime = db.Column(db.Time)
+    holy_mtime = db.Column(db.Time)
+    tardy_mtime = db.Column(db.Time)
+    act_work_mpay = db.Column(db.Integer)
+    cont_work_mpay = db.Column(db.Integer)
+    over_mpay = db.Column(db.Integer)
+    night_mpay = db.Column(db.Integer)
+    holy_mpay = db.Column(db.Integer)
+    tardy_mpay = db.Column(db.Integer)
+    weekly_mpay = db.Column(db.Integer)
+    total_mpay = db.Column(db.Integer)
     total_days = db.Column(db.Integer)
-    national_pension = db.Column(db.Numeric(12, 2))
-    health_insurance = db.Column(db.Numeric(12, 2))
-    employment_insurance = db.Column(db.Numeric(12, 2))
-    income_tax = db.Column(db.Numeric(12, 2))
-    tax_exemption = db.Column(db.Numeric(12, 2))
-    after_deduction = db.Column(db.Numeric(12, 2))
+    nat_pension = db.Column(db.Integer)
+    health_ins = db.Column(db.Integer)
+    employment_ins = db.Column(db.Integer)
+    income_tax = db.Column(db.Integer)
+    tax_exempt = db.Column(db.Integer)
+    final_pay = db.Column(db.Integer)
     created_time = db.Column(db.DateTime, server_default=func.now())
     updated_time = db.Column(db.DateTime)
 
@@ -116,7 +119,7 @@ class Monthly(db.Model):
 class TermsAgreement(db.Model):
     __tablename__ = 'TermsAgreement'
 
-    terms_id = db.Column(db.Integer, primary_key=True)
+    terms_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer)
     terms_01 = db.Column(db.Integer)
     terms_02 = db.Column(db.Integer)
@@ -128,8 +131,9 @@ class TermsAgreement(db.Model):
 class TimeCard(db.Model):
     __tablename__ = 'TimeCard'
 
-    tc_id = db.Column(db.Integer, primary_key=True, nullable=False)
-    wcond_id = db.Column(db.ForeignKey('WorkCondition.wcond_id'), primary_key=True, nullable=False, index=True)
+    tc_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    cont_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    wcond_id = db.Column(db.Integer, primary_key=True, nullable=False)
     target_ym = db.Column(db.String(6), primary_key=True, nullable=False)
     target_date = db.Column(db.String(2), primary_key=True, nullable=False)
     type_code = db.Column(db.Integer, nullable=False)
@@ -137,13 +141,11 @@ class TimeCard(db.Model):
     created_time = db.Column(db.DateTime, server_default=func.now())
     updated_time = db.Column(db.DateTime)
 
-    wcond = db.relationship('WorkCondition', primaryjoin='TimeCard.wcond_id == WorkCondition.wcond_id', backref='time_cards')
-
 
 class TimeCardMemo(db.Model):
     __tablename__ = 'TimeCardMemo'
 
-    tcmemo_id = db.Column(db.Integer, primary_key=True)
+    tcmemo_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tc_id = db.Column(db.Integer, nullable=False)
     target_ym = db.Column(db.String(6), nullable=False)
     target_date = db.Column(db.String(2), nullable=False)
@@ -158,30 +160,38 @@ class TimeCardMemo(db.Model):
 class Weekly(db.Model):
     __tablename__ = 'Weekly'
 
-    weekly_id = db.Column(db.Integer, primary_key=True)
-    wcond_id = db.Column(db.ForeignKey('WorkCondition.wcond_id'), nullable=False, index=True)
+    weekly_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cont_id = db.Column(db.ForeignKey('WorkContract.cont_id'), nullable=False, index=True)
+    target_ym = db.Column(db.String(8), primary_key=True,nullable=False)
+    week_num = db.Column(db.Integer)
+    total_time = db.Column(db.Time)
+    total_pay = db.Column(db.Integer)
+    holy_dnum = db.Column(db.Integer)
+    weekly_pay = db.Column(db.Integer)
     created_time = db.Column(db.DateTime, server_default=func.now())
     updated_time = db.Column(db.DateTime)
 
-    wcond = db.relationship('WorkCondition', primaryjoin='Weekly.wcond_id == WorkCondition.wcond_id', backref='weeklies')
+    cont = db.relationship('WorkContract', primaryjoin='Weekly.cont_id == WorkContract.cont_id', backref='weeklies')
 
 
 class WorkCondition(db.Model):
     __tablename__ = 'WorkCondition'
 
-    wcond_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    wcond_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     cont_id = db.Column(db.ForeignKey('WorkContract.cont_id', ondelete='RESTRICT', onupdate='RESTRICT'), primary_key=True, nullable=False, index=True)
     user_id = db.Column(db.Integer, nullable=False, index=True)
     wp_id = db.Column(db.Integer, nullable=False)
-    work_date = db.Column(db.String(8), primary_key=True, nullable=False)
+    target_ym = db.Column(db.String(6))
+    target_date = db.Column(db.String(2))
     week_num = db.Column(db.Integer)
     day_num = db.Column(db.Integer)
-    start_work_time = db.Column(db.Time)
-    end_work_time = db.Column(db.Time)
-    amount_work_time = db.Column(db.Time)
-    amount_rest_time = db.Column(db.Time)
-    hourly_pay = db.Column(db.Numeric(12, 2))
-    daily_pay = db.Column(db.Numeric(12, 2))
+    start_time = db.Column(db.Time)
+    end_time = db.Column(db.Time)
+    awork_time = db.Column(db.Time)
+    arest_time = db.Column(db.Time)
+    hourly_pay = db.Column(db.Integer)
+    daily_pay = db.Column(db.Integer)
+    tardy_code = db.Column(db.Integer, nullable=False, server_default='1')
     wcond_status = db.Column(db.Integer, nullable=False, server_default='1')
     created_time = db.Column(db.DateTime, server_default=func.now())
     updated_time = db.Column(db.DateTime)
@@ -192,11 +202,11 @@ class WorkCondition(db.Model):
 class WorkContract(db.Model):
     __tablename__ = 'WorkContract'
 
-    cont_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    cont_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     user_id = db.Column(db.ForeignKey('User.user_id'), nullable=False, index=True)
     wp_id = db.Column(db.ForeignKey('WorkPlace.wp_id'), nullable=False, index=True)
     cont_date = db.Column(db.String(8), primary_key=True, nullable=False)
-    first_start_date = db.Column(db.String(8))
+    first_date = db.Column(db.String(8))
     _1_start_pot = db.Column('1_start_pot', db.Time)
     _1_end_pot = db.Column('1_end_pot', db.Time)
     _1_rest_aot = db.Column('1_rest_aot', db.Time)
@@ -219,12 +229,12 @@ class WorkContract(db.Model):
     _7_end_pot = db.Column('7_end_pot', db.Time)
     _7_rest_aot = db.Column('7_rest_aot', db.Time)
     week_holiday = db.Column(db.Integer)
-    work_day_cnt = db.Column(db.Integer)
-    hourly_pay = db.Column(db.Numeric(12, 2))
-    monthly_pay = db.Column(db.Numeric(12, 2))
-    pay_init_day = db.Column(db.Integer, server_default='1')
+    day_cnt = db.Column(db.Integer)
+    hourly_pay = db.Column(db.Integer)
+    monthly_pay = db.Column(db.Integer)
+    pinit_day = db.Column(db.Integer, server_default='1')
     pay_day = db.Column(db.Integer, server_default='10')
-    work_time_offset = db.Column(db.Time, server_default='00:05:00')
+    time_offset = db.Column(db.Time, server_default='00:05:00')
     having_photo = db.Column(db.String(255))
     cont_status = db.Column(db.Integer, nullable=False, server_default='1')
     created_time = db.Column(db.DateTime, server_default=func.now())
@@ -237,7 +247,7 @@ class WorkContract(db.Model):
 class WorkPlace(db.Model):
     __tablename__ = 'WorkPlace'
 
-    wp_id = db.Column(db.Integer, primary_key=True)
+    wp_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     wp_name = db.Column(db.String(45))
     address = db.Column(db.String(255))
     kakao_place_id = db.Column(db.String(45))
@@ -258,11 +268,9 @@ class WorkPlace(db.Model):
 class Yearly(db.Model):
     __tablename__ = 'Yearly'
 
-    yearly_id = db.Column(db.Integer, primary_key=True)
-    wcond_id = db.Column(db.ForeignKey('WorkCondition.wcond_id'), nullable=False, index=True)
+    yearly_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cont_id = db.Column(db.Integer, nullable=False)
     created_time = db.Column(db.DateTime, server_default=func.now())
     updated_time = db.Column(db.DateTime)
-
-    wcond = db.relationship('WorkCondition', primaryjoin='Yearly.wcond_id == WorkCondition.wcond_id', backref='yearlies')
 
 

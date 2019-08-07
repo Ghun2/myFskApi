@@ -17,7 +17,7 @@ class User(db.Model):
     sex = db.Column(db.Integer)
     password_hash = db.Column(db.String(100))
     user_status = db.Column(db.Integer, nullable=False, server_default='1')
-    admin = db.Column(db.Boolean, nullable=False, default=False)
+    admin = db.Column(db.Boolean, nullable=False, default=False, server_default='0')
     created_time = db.Column(db.DateTime, server_default=func.now())
     updated_time = db.Column(db.DateTime)
 
